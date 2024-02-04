@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+
+  keycloak:
+    image: jboss/keycloak:16.1.1
+    container_name: keycloak-ssl
+    ports:
+      - "8280:8080"
+      - "8543:8443"
+    volumes:
+      - "./certs/:/etc/x509/https"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+
+
+

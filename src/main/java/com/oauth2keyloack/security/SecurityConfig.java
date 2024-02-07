@@ -20,24 +20,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        /*JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KCRoleConverter());*/
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KCRoleConverter());
 
         http.authorizeHttpRequests(httpRequests ->
                 httpRequests.requestMatchers("/test/login").permitAll()
                         .anyRequest().authenticated());
 
-        http.oauth2ResourceServer(t -> t.jwt(Customizer.withDefaults()));
+        http.oauth2ResourceServer((oauth2) ->
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
 
         http.sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        /*http.authorizeRequests()
-                .antMatchers("/test/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(jwtAuthenticationConverter);*/
 
         return http.build();
     }

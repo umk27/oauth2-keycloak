@@ -24,10 +24,10 @@ public class TestController {
 
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('admin')")
-    public String delete(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
+    public String delete(@PathVariable(name = "id") String id, @AuthenticationPrincipal Jwt jwt) {
         System.out.println("jwt" + jwt.getClaim("email"));
-        System.out.println("id delete" + id);
-        return "delete";
+        System.out.println("id delete " + id);
+        return "delete " + id;
     }
 
     @GetMapping("/add")

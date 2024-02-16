@@ -1,6 +1,5 @@
 package com.oauth2keyloack.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/admin/user")
+public class AdminController {
 
-    @GetMapping("/login")
+   /* @GetMapping("/login")
     public String login() {
         return "Login work";
-    }
+    }*/
 
     @GetMapping("/work")
     public String work() {
@@ -23,7 +22,6 @@ public class TestController {
     }
 
     @GetMapping("/delete/{id}")
-    @PreAuthorize("hasRole('admin')")
     public String delete(@PathVariable(name = "id") String id, @AuthenticationPrincipal Jwt jwt) {
         System.out.println("jwt" + jwt.getClaim("email"));
         System.out.println("id delete " + id);
@@ -31,13 +29,11 @@ public class TestController {
     }
 
     @GetMapping("/add")
-    @PreAuthorize("hasRole('admin')")
     public String add() {
         return "add";
     }
 
     @GetMapping("/view")
-    @PreAuthorize("hasRole('user')")
     public String view() {
         return "view work";
     }
